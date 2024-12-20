@@ -1,0 +1,30 @@
+---
+version: '3'
+
+volumes:
+  cowrie-debug-etc:
+  cowrie-debug-var:
+  cowrie-etc:
+  cowrie-var:
+
+services:
+  cowrie-debug:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile.debug
+    ports:
+      - "2222:2222"
+      - "2223:2223"
+    volumes:
+      - cowrie-debug-etc:/cowrie/cowrie-git/etc
+      - cowrie-debug-var:/cowrie/cowrie-git/var
+  cowrie:
+    restart: always
+    image: cowrie/cowrie
+    ports:
+      - "3222:2222"
+      - "3223:2223"
+    volumes:
+      - cowrie-etc:/cowrie/cowrie-git/etc
+      - cowrie-var:/cowrie/cowrie-git/var
